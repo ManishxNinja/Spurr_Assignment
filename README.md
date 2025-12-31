@@ -473,6 +473,4 @@ All errors are caught and returned as user-friendly messages in the chat.
 - Check DATABASE_URL format
 - Verify database exists and user has permissions
 
-## License
 
-This project is part of a take-home assignment for Spur.
