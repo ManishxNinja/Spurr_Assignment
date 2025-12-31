@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { Message } from "../types";
 import MessageBubble from "./MessageBubble";
 
@@ -9,13 +9,41 @@ interface MessageListProps {
 
 export default function MessageList({ messages, isTyping }: MessageListProps) {
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [shouldAutoScroll, setShouldAutoScroll] = useState(true);
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages, isTyping]);
+    if (shouldAutoScroll && messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages, isTyping, shouldAutoScroll]);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const handleScroll = () => {
+      const { scrollTop, scrollHeight, clientHeight } = container;
+      const isNearBottom = scrollHeight - scrollTop - clientHeight < 100;
+      setShouldAutoScroll(isNearBottom);
+    };
+
+    container.addEventListener("scroll", handleScroll);
+    return () => container.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    if (messages.length > 0) {
+      setShouldAutoScroll(true);
+    }
+  }, [messages.length]);
 
   return (
-    <div className="flex-1 overflow-y-auto px-6 sm:px-8 md:px-12 lg:px-16 py-8 flex flex-col bg-gray-50">
+    <div
+      ref={containerRef}
+      className="h-full overflow-y-auto px-6 sm:px-8 md:px-12 lg:px-16 py-8 flex flex-col bg-gray-50 scroll-smooth"
+      style={{ scrollBehavior: "smooth" }}
+    >
       {messages.length === 0 && (
         <div className="flex-1 flex items-center justify-center">
           <div className="text-center max-w-md px-4">

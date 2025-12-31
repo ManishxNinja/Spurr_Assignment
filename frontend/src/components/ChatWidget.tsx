@@ -34,6 +34,13 @@ export default function ChatWidget() {
     }
   };
 
+  const handleNewChat = () => {
+    setMessages([]);
+    setSessionId(null);
+    setError(null);
+    localStorage.removeItem(SESSION_STORAGE_KEY);
+  };
+
   const handleSendMessage = async (text: string) => {
     if (isLoading) return;
 
@@ -105,13 +112,33 @@ export default function ChatWidget() {
               </p>
             </div>
           </div>
+          {messages.length > 0 && (
+            <button
+              onClick={handleNewChat}
+              className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors duration-200"
+              title="Start a new chat"
+            >
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 4v16m8-8H4"
+                />
+              </svg>
+              <span>New Chat</span>
+            </button>
+          )}
         </div>
       </div>
 
-      <div className="flex-1 min-h-0 overflow-hidden">
-        <div className="pt-4 h-full">
-          <MessageList messages={messages} isTyping={isLoading} />
-        </div>
+      <div className="flex-1 min-h-0 overflow-hidden pt-4">
+        <MessageList messages={messages} isTyping={isLoading} />
       </div>
 
       {error && (
