@@ -12,6 +12,10 @@ A full-stack AI-powered customer support chat application built with React, Node
 - ✅ Input validation and error handling
 - 📱 Responsive design
 
+## Submission Note
+
+This assignment was completed in a single night and is being submitted on December 31st. Due to ongoing freelancing commitments, I was unable to implement Redis caching as originally planned. The application is fully functional with all core features implemented, but Redis integration would be a valuable addition for production scalability and performance optimization.
+
 ## Tech Stack
 
 ### Backend
@@ -435,7 +439,7 @@ All errors are caught and returned as user-friendly messages in the chat.
    - Rate limiting
    - Request validation middleware
    - Logging and monitoring (Winston, Sentry)
-   - Caching layer (Redis)
+   - Caching layer (Redis) - _Note: Was planned but couldn't be implemented due to time constraints_
    - Load balancing
    - Docker containerization
    - CI/CD pipeline
@@ -472,5 +476,3 @@ All errors are caught and returned as user-friendly messages in the chat.
 - Ensure PostgreSQL is running
 - Check DATABASE_URL format
 - Verify database exists and user has permissions
-
-
